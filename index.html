@@ -1,0 +1,507 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2113.65">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #000000; -webkit-text-stroke: #71c083}
+    span.s1 {font-kerning: none}
+    span.s2 {font-kerning: none; -webkit-text-stroke: 0px #000000}
+    span.s3 {font-kerning: none; background-color: rgba(0, 0, 0, 0)}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;942-Element Truss Visualization&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* Basic styles for the page and canvas */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #1a1a1a;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #e0e0e0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow: hidden; /* Prevent scrollbars */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>canvas {<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: block;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* Styles for the control panel overlay */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#controls {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: absolute;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>top: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>left: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: rgba(40, 40, 40, 0.85);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #444;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 100;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 12px rgba(0,0,0,0.4);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#controls h3 {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #555;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding-bottom: 8px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#controls div {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>label {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-right: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>input[type="text"], select {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 8px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 4px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #666;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #2a2a2a;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 180px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>button {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 8px 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 4px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #007bff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-left: 5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: background-color 0.2s;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>button:hover {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #0056b3;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#resetBtn {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #6c757d;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#resetBtn:hover {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #5a6268;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#selectionInfo {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding-top: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-top: 1px solid #555;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#selectionInfo span {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: normal;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #00ccff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding-left: 5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#groupControls {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding-top: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-top: 1px solid #555;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#groupControls label {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- UI Panel for user interaction --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="controls"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h3&gt;Truss Visualization&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;&lt;input type="radio" name="selectionType" value="node" checked&gt; Node&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label&gt;&lt;input type="radio" name="selectionType" value="element"&gt; Element&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="searchInput" placeholder="Enter ID to highlight"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="highlightBtn"&gt;Highlight&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="resetBtn"&gt;Reset&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- New Group Selection UI --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="groupControls"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label for="groupSelect"&gt;Highlight Group:&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select id="groupSelect"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="none"&gt;-- Select a Group --&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="selectionInfo"&gt;Selected: &lt;span&gt;None&lt;/span&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Import map for loading Three.js modules from a CDN --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="importmap"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>"imports": {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Main script for the 3D visualization --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="module"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>import * as THREE from 'three';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>import { OrbitControls } from 'three/addons/controls/OrbitControls.js';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>import { FontLoader } from 'three/addons/loaders/FontLoader.js';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- RAW DATA ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Node data: ID, X, Y, Z</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const nodeDataStr = `1 -84 -84 3744;2 84 -84 3744;3 84 84 3744;4 -84 84 3744;5 -84 -84 3600;6 84 -84 3600;7 84 84 3600;8 -84 84 3600;9 -84 -84 3456;10 84 -84 3456;11 84 84 3456;12 -84 84 3456;13 -84 -84 3312;14 84 -84 3312;15 84 84 3312;16 -84 84 3312;17 -84 -84 3168;18 84 -84 3168;19 84 84 3168;20 -84 84 3168;21 -84 -84 3024;22 84 -84 3024;23 84 84 3024;24 -84 84 3024;25 -210 0 2880;26 -168 -168 2880;27 0 -210 2880;28 168 -168 2880;29 210 0 2880;30 168 168 2880;31 0 210 2880;32 -168 168 2880;33 -210 0 2736;34 -168 -168 2736;35 0 -210 2736;36 168 -168 2736;37 210 0 2736;38 168 168 2736;39 0 210 2736;40 -168 168 2736;41 -210 0 2592;42 -168 -168 2592;43 0 -210 2592;44 168 -168 2592;45 210 0 2592;46 168 168 2592;47 0 210 2592;48 -168 168 2592;49 -210 0 2448;50 -168 -168 2448;51 0 -210 2448;52 168 -168 2448;53 210 0 2448;54 168 168 2448;55 0 210 2448;56 -168 168 2448;57 -210 0 2304;58 -168 -168 2304;59 0 -210 2304;60 168 -168 2304;61 210 0 2304;62 168 168 2304;63 0 210 2304;64 -168 168 2304;65 -210 0 2160;66 -168 -168 2160;67 0 -210 2160;68 168 -168 2160;69 210 0 2160;70 168 168 2160;71 0 210 2160;72 -168 168 2160;73 -210 0 2016;74 -168 -168 2016;75 0 -210 2016;76 168 -168 2016;77 210 0 2016;78 168 168 2016;79 0 210 2016;80 -168 168 2016;81 -210 0 1872;82 -168 -168 1872;83 0 -210 1872;84 168 -168 1872;85 210 0 1872;86 168 168 1872;87 0 210 1872;88 -168 168 1872;89 -294 -84 1728;90 -252 -252 1728;91 -84 -294 1728;92 84 -294 1728;93 252 -252 1728;94 294 -84 1728;95 294 84 1728;96 252 252 1728;97 84 294 1728;98 -84 294 1728;99 -252 252 1728;100 -294 84 1728;101 -294 -84 1584;102 -252 -252 1584;103 -84 -294 1584;104 84 -294 1584;105 252 -252 1584;106 294 -84 1584;107 294 84 1584;108 252 252 1584;109 84 294 1584;110 -84 294 1584;111 -252 252 1584;112 -294 84 1584;113 -294 -84 1440;114 -252 -252 1440;115 -84 -294 1440;116 84 -294 1440;117 252 -252 1440;118 294 -84 1440;119 294 84 1440;120 252 252 1440;121 84 294 1440;122 -84 294 1440;123 -252 252 1440;124 -294 84 1440;125 -294 -84 1296;126 -252 -252 1296;127 -84 -294 1296;128 84 -294 1296;129 252 -252 1296;130 294 -84 1296;131 294 84 1296;132 252 252 1296;133 84 294 1296;134 -84 294 1296;135 -252 252 1296;136 -294 84 1296;137 -294 -84 1152;138 -252 -252 1152;139 -84 -294 1152;140 84 -294 1152;141 252 -252 1152;142 294 -84 1152;143 294 84 1152;144 252 252 1152;145 84 294 1152;146 -84 294 1152;147 -252 252 1152;148 -294 84 1152;149 -294 -84 1008;150 -252 -252 1008;151 -84 -294 1008;152 84 -294 1008;153 252 -252 1008;154 294 -84 1008;155 294 84 1008;156 252 252 1008;157 84 294 1008;158 -84 294 1008;159 -252 252 1008;160 -294 84 1008;161 -294 -84 864;162 -252 -252 864;163 -84 -294 864;164 84 -294 864;165 252 -252 864;166 294 -84 864;167 294 84 864;168 252 252 864;169 84 294 864;170 -84 294 864;171 -252 252 864;172 -294 84 864;173 -294 -84 720;174 -252 -252 720;175 -84 -294 720;176 84 -294 720;177 252 -252 720;178 294 -84 720;179 294 84 720;180 252 252 720;181 84 294 720;182 -84 294 720;183 -252 252 720;184 -294 84 720;185 -294 -84 576;186 -252 -252 576;187 -84 -294 576;188 84 -294 576;189 252 -252 576;190 294 -84 576;191 294 84 576;192 252 252 576;193 84 294 576;194 -84 294 576;195 -252 252 576;196 -294 84 576;197 -294 -84 432;198 -252 -252 432;199 -84 -294 432;200 84 -294 432;201 252 -252 432;202 294 -84 432;203 294 84 432;204 252 252 432;205 84 294 432;206 -84 294 432;207 -252 252 432;208 -294 84 432;209 -294 -84 288;210 -252 -252 288;211 -84 -294 288;212 84 -294 288;213 252 -252 288;214 294 -84 288;215 294 84 288;216 252 252 288;217 84 294 288;218 -84 294 288;219 -252 252 288;220 -294 84 288;221 -294 -84 144;222 -252 -252 144;223 -84 -294 144;224 84 -294 144;225 252 -252 144;226 294 -84 144;227 294 84 144;228 252 252 144;229 84 294 144;230 -84 294 144;231 -252 252 144;232 -294 84 144;233 -378 -84 0;234 -336 -336 0;235 -84 -378 0;236 84 -378 0;237 336 -336 0;238 378 -84 0;239 378 84 0;240 336 336 0;241 84 378 0;242 -84 378 0;243 -336 336 0;244 -378 84 0`;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Element data: Node1_ID, Node2_ID (Original data with duplicates)</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">        </span>const elementDataStr = `</span><span class="s3">1 3;2 4;1 2;2 3;3 4;4 1;5 6;6 7;7 8;8 5;1 5;2 6;3 7;4 8;5 9;6 10;7 11;8 12;1 6;2 7;3 8;4 5;5 2;6 3;7 4;1 8;5 10;6 11;7 12;8 9;9 6;10 7;11 8;5 12;9 10;10 11;11 12;12 9;13 14;14 15;15 16;16 13;17 18;18 19;19 20;20 17;9 13;10 14;11 15;12 16;13 17;14 18;15 19;16 20;17 21;18 22;19 23;20 24;9 14;10 15;11 16;12 13;13 10;14 11;15 12;9 16;13 18;14 19;15 20;16 17;17 14;18 15;19 16;13 20;17 22;18 23;19 24;20 21;21 18;22 19;23 20;17 24;21 22;22 23;23 24;24 21;21 26;22 28;23 30;24 32;21 28;22 30;23 32;24 26;26 22;28 23;30 24;32 21;21 27;22 29;23 31;24 25;21 25;22 27;23 29;24 31;25 26;26 27;27 28;28 29;29 30;30 31;31 32;32 25;33 34;34 35;35 36;36 37;37 38;38 39;39 40;40 33;26 34;28 36;30 38;32 40;34 42;36 44;38 46;40 48;25 34;26 35;27 36;28 37;29 38;30 39;31 40;32 33;33 26;34 27;35 28;36 29;37 30;38 31;39 32;40 25;33 42;34 43;35 44;36 45;37 46;38 47;39 48;40 41;41 34;42 35;43 36;44 37;45 38;46 39;47 40;48 33;25 33;27 35;29 37;31 39;33 41;35 43;37 45;39 47;41 42;42 43;43 44;44 45;45 46;46 47;47 48;48 41;49 50;50 51;51 52;52 53;53 54;54 55;55 56;56 49;42 50;44 52;46 54;48 56;50 58;52 60;54 62;56 64;41 50;42 51;43 52;44 53;45 54;46 55;47 56;48 49;49 42;50 43;51 44;52 45;53 46;54 47;55 48;56 41;49 58;50 59;51 60;52 61;53 62;54 63;55 64;56 57;57 50;58 51;59 52;60 53;61 54;62 55;63 56;64 49;41 49;43 51;45 53;47 55;49 57;51 59;53 61;55 63;57 58;58 59;59 60;60 61;61 62;62 63;63 64;64 57;65 66;66 67;67 68;68 69;69 70;70 71;71 72;72 65;73 74;74 75;75 76;76 77;77 78;78 79;79 80;80 73;58 66;60 68;62 70;64 72;66 74;68 76;70 78;72 80;74 82;76 84;78 86;80 88;57 66;58 67;59 68;60 69;61 70;62 71;63 72;64 65;65 58;66 59;67 60;68 61;69 62;70 63;71 64;72 57;65 74;66 75;67 76;68 77;69 78;70 79;71 80;72 73;73 66;74 67;75 68;76 69;77 70;78 71;79 72;80 65;73 82;74 83;75 84;76 85;77 86;78 87;79 88;80 81;81 74;82 75;83 76;84 77;85 78;86 79;87 80;88 73;57 65;59 67;61 69;63 71;65 73;67 75;69 77;71 79;73 81;75 83;77 85;79 87;81 82;82 83;83 84;84 85;85 86;86 87;87 88;88 81;90 82;93 84;96 86;99 88;81 90;90 83;83 93;93 85;85 96;96 87;87 99;99 81;89 82;82 91;92 84;84 94;95 86;86 97;98 88;88 100;83 91;85 94;87 97;81 100;81 89;83 92;85 95;87 98;89 90;90 91;92 93;93 94;95 96;96 97;98 99;99 100;101 102;102 103;104 105;105 106;107 108;108 109;110 111;111 112;91 92;94 95;97 98;100 89;103 104;106 107;109 110;112 101;90 102;93 105;96 108;99 111;102 114;105 117;108 120;111 123;89 102;90 103;101 90;102 91;92 105;93 106;104 93;105 94;95 108;96 109;107 96;108 97;98 111;99 112;110 99;111 100;101 114;102 115;113 102;114 103;104 117;105 118;105 116;106 117;107 120;108 121;119 108;120 109;110 123;111 124;122 111;123 112;91 103;94 106;97 109;100 112;89 101;92 104;95 107;98 110;103 115;106 118;109 121;112 124;101 113;104 116;107 119;110 122;91 104;94 107;97 110;100 101;103 92;106 95;109 98;89 112;103 116;106 119;109 122;112 113;115 104;118 107;121 110;101 124;113 114;114 115;116 117;117 118;119 120;120 121;122 123;123 124;125 126;126 127;128 129;129 130;131 132;132 133;134 135;135 136;137 138;138 139;140 141;141 142;143 144;144 145;146 147;147 148;115 116;118 119;121 122;124 113;127 128;130 131;133 134;136 125;139 140;142 143;145 146;148 137;114 126;117 129;120 132;123 135;126 138;129 141;132 144;135 147;138 150;141 153;144 156;147 159;113 126;114 127;125 114;126 115;116 129;117 130;128 117;129 118;119 132;120 133;131 120;132 121;122 135;123 136;134 123;135 124;125 138;126 139;137 126;138 127;128 141;129 142;129 140;130 141;131 144;132 145;143 132;144 133;134 147;135 148;146 135;147 136;137 150;138 151;149 138;150 139;140 153;141 154;152 141;153 142;143 156;144 157;155 144;156 145;146 159;147 160;158 147;159 148;115 127;118 130;121 133;124 136;113 125;116 128;119 131;122 134;127 139;130 142;133 145;136 148;125 137;128 140;131 143;134 146;139 151;142 154;145 157;148 160;137 149;140 152;143 155;146 158;115 128;118 131;121 134;124 125;116 127;119 130;122 133;113 136;127 140;130 143;133 146;136 137;139 128;142 131;145 134;125 148;139 152;142 155;145 158;148 149;151 140;154 143;157 146;137 160;149 150;150 151;152 153;153 154;155 156;156 157;158 159;159 160;161 162;162 163;164 165;165 166;167 168;168 169;170 171;171 172;173 174;174 175;176 177;177 178;179 180;180 181;182 183;183 184;151 152;154 155;157 158;160 149;163 164;166 167;169 170;172 161;175 176;178 179;181 182;184 173;150 162;153 165;156 168;159 171;162 174;165 177;168 180;171 183;174 186;177 189;180 192;183 195;149 162;150 163;161 150;162 151;152 165;153 166;164 153;165 154;155 168;156 169;167 156;168 157;158 171;159 172;170 159;171 160;161 174;162 175;173 162;174 163;164 177;165 178;165 176;166 177;167 180;168 181;179 168;180 169;170 183;171 184;182 171;183 172;173 186;174 187;185 174;186 175;176 189;177 190;188 177;189 178;179 192;180 193;191 180;192 181;182 195;183 196;194 183;195 184;151 163;154 166;157 169;160 172;149 161;152 164;155 167;158 170;163 175;166 178;169 181;172 184;161 173;164 176;167 179;170 182;175 187;178 190;181 193;184 196;173 185;176 188;179 191;182 194;151 164;154 167;157 170;160 161;152 163;166 155;169 158;149 172;163 176;166 179;169 182;172 173;175 164;178 167;181 170;161 184;175 188;178 191;181 194;184 185;187 176;190 179;193 182;173 196;185 186;186 187;188 189;189 190;191 192;192 193;194 195;195 196;197 198;198 199;200 201;201 202;203 204;204 205;206 207;207 208;209 210;210 211;212 213;213 214;215 216;216 217;218 219;219 220;187 188;190 191;193 194;196 185;199 200;202 203;205 206;208 197;211 212;214 215;217 218;220 209;186 198;189 201;192 204;195 207;198 210;201 213;204 216;207 219;210 222;213 225;216 228;219 231;185 198;186 199;197 186;198 187;188 201;189 202;200 189;201 190;191 204;192 205;203 192;204 193;194 207;195 208;206 195;207 196;197 210;198 211;209 198;210 199;200 213;201 214;201 212;202 213;203 216;204 217;215 204;216 205;206 219;207 220;218 207;219 208;209 222;210 223;221 210;222 211;212 225;213 226;224 213;225 214;215 228;216 229;227 216;228 217;218 231;219 232;230 219;231 220;187 199;190 202;193 205;196 208;185 197;188 200;191 203;194 206;199 211;202 214;205 217;208 220;197 209;200 212;203 215;206 218;211 223;214 226;217 229;220 232;209 221;212 224;215 227;218 230;187 200;190 203;193 206;196 197;188 199;191 202;194 205;185 208;199 212;202 215;205 218;208 209;211 200;214 203;217 206;197 220;211 224;214 227;217 230;220 221;223 212;226 215;229 218;209 232;221 222;222 223;224 225;225 226;227 228;228 229;230 231;231 232;223 224;226 227;229 230;232 221;222 234;225 237;228 240;231 243;234 223;237 226;240 229;243 232;221 234;224 237;227 240;230 243;233 222;236 225;239 228;242 231;222 235;225 238;228 241;231 244;223 235;226 238;229 241;232 244;221 233;224 236;227 239;230 242;223 236;226 239;229 242;235 224;238 227;241 230;244 221;233 232]</span><span class="s2">`;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Grouping data based on element IDs</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const groupData = [2, 10, 18, 34, 46, 58, 82, 86, 94, 98, 106, 122, 130, 162, 170, 186, 194, 226, 234, 258, 270, 318, 330, 338, 342, 350, 358, 366, 382, 390, 398, 430, 446, 462, 486, 498, 510, 558, 582, 606, 630, 642, 654, 702, 726, 750, 774, 786, 798, 846, 870, 894, 902, 906, 910, 918, 926, 934, 942];</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- DATA PARSING ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const nodes = new Map();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>nodeDataStr.replace(/\[|\]/g, '').trim().split(';').forEach(line =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const parts = line.trim().split(/\s+/).map(Number);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (parts.length === 4) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nodes.set(parts[0], { x: parts[1], y: parts[2], z: parts[3] });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const elements = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>elementDataStr.replace(/\[|\]/g, '').trim().split(';').forEach(line =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const parts = line.trim().split(/\s+/).map(Number);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (parts.length === 2) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>elements.push({ n1: parts[0], n2: parts[1] });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- GLOBAL VARIABLES ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let scene, camera, renderer, controls;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let nodeObjects = [], elementObjects = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let labelsGroup = new THREE.Group();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let font; // To store the loaded font</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let raycaster, mouse; // For object picking</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- MATERIALS (reused for efficiency) ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const materials = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>node: new THREE.MeshLambertMaterial({ color: 0x00ccff }),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>element: new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 }),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>highlightNode: new THREE.MeshLambertMaterial({ color: 0xff00ff, emissive: 0xff00ff }),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>highlightElement: new THREE.LineBasicMaterial({ color: 0xff00ff, linewidth: 4 }),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>dimNode: new THREE.MeshLambertMaterial({ color: 0x003344, transparent: true, opacity: 0.15 }),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>dimElement: new THREE.LineBasicMaterial({ color: 0x444444, transparent: true, opacity: 0.15 }),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text: new THREE.MeshBasicMaterial({ color: 0xffffff })</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- INITIALIZATION ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function init() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Scene setup</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene = new THREE.Scene();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.background = new THREE.Color(0x1a1a1a);</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Camera setup</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Renderer setup</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer = new THREE.WebGLRenderer({ antialias: true });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.body.appendChild(renderer.domElement);</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Controls setup</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>controls = new OrbitControls(camera, renderer.domElement);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>controls.enableDamping = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>controls.dampingFactor = 0.1;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Raycaster for clicking</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>raycaster = new THREE.Raycaster();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>raycaster.params.Line.threshold = 5; // Threshold for line intersection</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>mouse = new THREE.Vector2();</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Lighting</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(new THREE.AmbientLight(0xffffff, 0.6));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>dirLight.position.set(500, 1000, 750);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(dirLight);</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Populate the group selector dropdown</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>populateGroupSelector();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Load font first, then draw everything</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const fontLoader = new FontLoader();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.161.0/examples/fonts/helvetiker_regular.typeface.json', (loadedFont) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>font = loadedFont;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>drawTruss();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setupCameraAndControls();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>addEventListeners();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>animate();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- UI SETUP ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function populateGroupSelector() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const selectElement = document.getElementById('groupSelect');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let startId = 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>groupData.forEach((endId, index) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const option = document.createElement('option');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>option.value = index; // Use index as the value for easy lookup</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>option.textContent = `Group ${index + 1} (${startId} - ${endId})`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>selectElement.appendChild(option);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startId = endId + 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- OBJECT CREATION ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function drawTruss() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Draw Nodes</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>nodes.forEach((pos, id) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const geometry = new THREE.SphereGeometry(12, 16, 16);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const nodeMesh = new THREE.Mesh(geometry, materials.node);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nodeMesh.position.set(pos.x, pos.y, pos.z);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nodeMesh.userData = { id, type: 'node', defaultMaterial: materials.node };</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>scene.add(nodeMesh);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>nodeObjects.push(nodeMesh);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Draw Elements</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>elements.forEach((el, index) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const node1 = nodes.get(el.n1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const node2 = nodes.get(el.n2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (node1 &amp;&amp; node2) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const points = [ new THREE.Vector3(node1.x, node1.y, node1.z), new THREE.Vector3(node2.x, node2.y, node2.z) ];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const geometry = new THREE.BufferGeometry().setFromPoints(points);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const line = new THREE.Line(geometry, materials.element);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>line.userData = { id: index + 1, type: 'element', defaultMaterial: materials.element }; // Element IDs are 1-based</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>scene.add(line);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>elementObjects.push(line);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Create Labels (initially hidden)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const textOptions = { font, size: 20, height: 1 };</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>nodeObjects.forEach(node =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const textGeom = new TextGeometry(String(node.userData.id), textOptions);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const textMesh = new THREE.Mesh(textGeom, materials.text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>textMesh.position.copy(node.position);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labelsGroup.add(textMesh);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(labelsGroup);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>labelsGroup.visible = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- CAMERA &amp; CONTROLS SETUP ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function setupCameraAndControls() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const boundingBox = new THREE.Box3().setFromObject(scene);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const center = boundingBox.getCenter(new THREE.Vector3());</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const size = boundingBox.getSize(new THREE.Vector3()).length();</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>controls.target.copy(center);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.position.copy(center);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.position.z += size * 1.2; // Move camera back to see the whole object</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.lookAt(center);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- INTERACTION LOGIC ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function highlightSelection() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Reset group selection when highlighting individually</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('groupSelect').value = 'none';</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>resetHighlight(false); // Dim everything first</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const type = document.querySelector('input[name="selectionType"]:checked').value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const id = parseInt(document.getElementById('searchInput').value);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.querySelector("#selectionInfo span").textContent = ` ${type.charAt(0).toUpperCase() + type.slice(1)} ${id}`;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (isNaN(id)) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>resetHighlight(true); // If input is invalid, reset to default</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const objectsToDim = [...nodeObjects, ...elementObjects];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>objectsToDim.forEach(obj =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>obj.material = obj.userData.type === 'node' ? materials.dimNode : materials.dimElement;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let highlightedObj = null;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (type === 'node') {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>highlightedObj = nodeObjects.find(obj =&gt; obj.userData.id === id);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (highlightedObj) highlightedObj.material = materials.highlightNode;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else if (type === 'element') {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>highlightedObj = elementObjects.find(obj =&gt; obj.userData.id === id);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (highlightedObj) highlightedObj.material = materials.highlightElement;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!highlightedObj) resetHighlight(true); // If ID not found, reset</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function highlightGroup(groupIndex) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (groupIndex &lt; 0 || groupIndex &gt;= groupData.length) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>resetHighlight();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const endId = groupData[groupIndex];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const startId = groupIndex &gt; 0 ? groupData[groupIndex - 1] + 1 : 1;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Update UI text</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.querySelector("#selectionInfo span").textContent = `Group ${groupIndex + 1} (Elements ${startId}-${endId})`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('searchInput').value = ''; // Clear individual search input</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Dim all nodes</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>nodeObjects.forEach(obj =&gt; obj.material = materials.dimNode);</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Highlight/Dim elements based on group range</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>elementObjects.forEach(obj =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const id = obj.userData.id;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (id &gt;= startId &amp;&amp; id &lt;= endId) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>obj.material = materials.highlightElement;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>obj.material = materials.dimElement;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function resetHighlight(clearInput = true) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>nodeObjects.forEach(obj =&gt; obj.material = obj.userData.defaultMaterial);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>elementObjects.forEach(obj =&gt; obj.material = obj.userData.defaultMaterial);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (clearInput) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('searchInput').value = '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.querySelector("#selectionInfo span").textContent = 'None';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Also reset the group dropdown</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('groupSelect').value = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- EVENT LISTENERS ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function addEventListeners() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>window.addEventListener('resize', onWindowResize);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('highlightBtn').addEventListener('click', highlightSelection);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('resetBtn').addEventListener('click', () =&gt; resetHighlight(true));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('searchInput').addEventListener('keydown', (event) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (event.key === 'Enter') {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>highlightSelection();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Add listener for the new group dropdown</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('groupSelect').addEventListener('change', (event) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const selectedValue = event.target.value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (selectedValue === 'none') {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>resetHighlight(true);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>highlightGroup(parseInt(selectedValue));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Toggle label visibility on zoom</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>controls.addEventListener('change', () =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const scale = controls.target.distanceTo(camera.position);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const labelVisibilityThreshold = 1500; // Adjust this value based on model size</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labelsGroup.visible = scale &lt; labelVisibilityThreshold;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Listen for clicks on the canvas</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.domElement.addEventListener('click', onObjectClick);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function onWindowResize() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.aspect = window.innerWidth / window.innerHeight;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.updateProjectionMatrix();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function onObjectClick(event) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Reset group selection when clicking an object</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('groupSelect').value = 'none';</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Calculate mouse position in normalized device coordinates (-1 to +1)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>event.preventDefault();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>mouse.x = (event.clientX / window.innerWidth) * 2 - 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Update the picking ray with the camera and mouse position</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>raycaster.setFromCamera(mouse, camera);</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Find all objects intersecting the picking ray</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const intersects = raycaster.intersectObjects([...nodeObjects, ...elementObjects]);</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const selectionInfoSpan = document.querySelector("#selectionInfo span");</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (intersects.length &gt; 0) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const intersectedObject = intersects[0].object;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const id = intersectedObject.userData.id;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const type = intersectedObject.userData.type;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Update the search input and radio button for convenience</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('searchInput').value = id;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.querySelector(`input[value="${type}"]`).checked = true;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Automatically highlight the clicked object</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>highlightSelection();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                 </span>// If nothing is clicked, reset the view</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                 </span>resetHighlight(true);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- RENDER LOOP ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function animate() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>requestAnimationFrame(animate);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>controls.update(); // Required for damping</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Make labels always face the camera if visible</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (labelsGroup.visible) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>labelsGroup.quaternion.copy(camera.quaternion);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.render(scene, camera);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- START THE APP ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>init();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+<p class="p1"><span class="s1"><br>
+</span></p>
+</body>
+</html>
